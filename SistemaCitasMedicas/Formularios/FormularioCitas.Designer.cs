@@ -29,25 +29,25 @@
         private void InitializeComponent()
         {
             gb_formulariocita = new GroupBox();
-            lb_nombre = new Label();
-            tb_nombre = new TextBox();
-            lb_apellido = new Label();
-            tb_apellido = new TextBox();
-            tb_carnet = new TextBox();
-            lb_carnet = new Label();
-            lb_numero = new Label();
-            tb_numero = new TextBox();
-            lb_direccion = new Label();
             tb_direccion = new TextBox();
+            lb_direccion = new Label();
+            tb_numero = new TextBox();
+            lb_numero = new Label();
+            lb_carnet = new Label();
+            tb_carnet = new TextBox();
+            tb_apellido = new TextBox();
+            lb_apellido = new Label();
+            tb_nombre = new TextBox();
+            lb_nombre = new Label();
             gb_cita = new GroupBox();
-            lb_especialidad = new Label();
-            cb_especialidad = new ComboBox();
-            lb_fecha = new Label();
-            lb_hora = new Label();
+            tb_motivo = new TextBox();
+            lb_motivo = new Label();
             cb_hora = new ComboBox();
             dt_fecha = new DateTimePicker();
-            lb_motivo = new Label();
-            tb_motivo = new TextBox();
+            lb_hora = new Label();
+            lb_fecha = new Label();
+            cb_especialidad = new ComboBox();
+            lb_especialidad = new Label();
             gb_formulariocita.SuspendLayout();
             gb_cita.SuspendLayout();
             SuspendLayout();
@@ -72,77 +72,13 @@
             gb_formulariocita.Text = "Formulario de datos del Paciente";
             gb_formulariocita.Enter += gb_formulariocita_Enter;
             // 
-            // lb_nombre
+            // tb_direccion
             // 
-            lb_nombre.AutoSize = true;
-            lb_nombre.Location = new Point(19, 19);
-            lb_nombre.Name = "lb_nombre";
-            lb_nombre.Size = new Size(61, 15);
-            lb_nombre.TabIndex = 0;
-            lb_nombre.Text = "Nombre/s";
-            lb_nombre.Click += lb_nombre_Click;
-            // 
-            // tb_nombre
-            // 
-            tb_nombre.Location = new Point(19, 37);
-            tb_nombre.Name = "tb_nombre";
-            tb_nombre.Size = new Size(210, 23);
-            tb_nombre.TabIndex = 1;
-            tb_nombre.TextChanged += tb_nombre_TextChanged;
-            // 
-            // lb_apellido
-            // 
-            lb_apellido.AutoSize = true;
-            lb_apellido.Location = new Point(19, 63);
-            lb_apellido.Name = "lb_apellido";
-            lb_apellido.Size = new Size(61, 15);
-            lb_apellido.TabIndex = 2;
-            lb_apellido.Text = "Apellido/s";
-            lb_apellido.Click += lb_apellido_Click;
-            // 
-            // tb_apellido
-            // 
-            tb_apellido.Location = new Point(19, 81);
-            tb_apellido.Name = "tb_apellido";
-            tb_apellido.Size = new Size(210, 23);
-            tb_apellido.TabIndex = 3;
-            tb_apellido.TextChanged += tb_apellido_TextChanged;
-            // 
-            // tb_carnet
-            // 
-            tb_carnet.Location = new Point(19, 125);
-            tb_carnet.Name = "tb_carnet";
-            tb_carnet.Size = new Size(210, 23);
-            tb_carnet.TabIndex = 4;
-            tb_carnet.TextChanged += tb_carnet_TextChanged;
-            // 
-            // lb_carnet
-            // 
-            lb_carnet.AutoSize = true;
-            lb_carnet.Location = new Point(19, 107);
-            lb_carnet.Name = "lb_carnet";
-            lb_carnet.Size = new Size(111, 15);
-            lb_carnet.TabIndex = 5;
-            lb_carnet.Text = "Carnet de Identidad";
-            lb_carnet.Click += lb_carnet_Click;
-            // 
-            // lb_numero
-            // 
-            lb_numero.AutoSize = true;
-            lb_numero.Location = new Point(19, 151);
-            lb_numero.Name = "lb_numero";
-            lb_numero.Size = new Size(157, 15);
-            lb_numero.TabIndex = 6;
-            lb_numero.Text = "Numero de Telefono/Celular";
-            lb_numero.Click += lb_numero_Click;
-            // 
-            // tb_numero
-            // 
-            tb_numero.Location = new Point(19, 169);
-            tb_numero.Name = "tb_numero";
-            tb_numero.Size = new Size(210, 23);
-            tb_numero.TabIndex = 7;
-            tb_numero.TextChanged += tb_numero_TextChanged;
+            tb_direccion.Location = new Point(19, 213);
+            tb_direccion.Name = "tb_direccion";
+            tb_direccion.Size = new Size(210, 23);
+            tb_direccion.TabIndex = 9;
+            tb_direccion.TextChanged += tb_direccion_TextChanged;
             // 
             // lb_direccion
             // 
@@ -154,13 +90,77 @@
             lb_direccion.Text = "Direccion de Domicilio";
             lb_direccion.Click += lb_direccion_Click;
             // 
-            // tb_direccion
+            // tb_numero
             // 
-            tb_direccion.Location = new Point(19, 213);
-            tb_direccion.Name = "tb_direccion";
-            tb_direccion.Size = new Size(210, 23);
-            tb_direccion.TabIndex = 9;
-            tb_direccion.TextChanged += tb_direccion_TextChanged;
+            tb_numero.Location = new Point(19, 169);
+            tb_numero.Name = "tb_numero";
+            tb_numero.Size = new Size(210, 23);
+            tb_numero.TabIndex = 7;
+            tb_numero.TextChanged += tb_numero_TextChanged;
+            // 
+            // lb_numero
+            // 
+            lb_numero.AutoSize = true;
+            lb_numero.Location = new Point(19, 151);
+            lb_numero.Name = "lb_numero";
+            lb_numero.Size = new Size(157, 15);
+            lb_numero.TabIndex = 6;
+            lb_numero.Text = "Numero de Telefono/Celular";
+            lb_numero.Click += lb_numero_Click;
+            // 
+            // lb_carnet
+            // 
+            lb_carnet.AutoSize = true;
+            lb_carnet.Location = new Point(19, 107);
+            lb_carnet.Name = "lb_carnet";
+            lb_carnet.Size = new Size(111, 15);
+            lb_carnet.TabIndex = 5;
+            lb_carnet.Text = "Carnet de Identidad";
+            lb_carnet.Click += lb_carnet_Click;
+            // 
+            // tb_carnet
+            // 
+            tb_carnet.Location = new Point(19, 125);
+            tb_carnet.Name = "tb_carnet";
+            tb_carnet.Size = new Size(210, 23);
+            tb_carnet.TabIndex = 4;
+            tb_carnet.TextChanged += tb_carnet_TextChanged;
+            // 
+            // tb_apellido
+            // 
+            tb_apellido.Location = new Point(19, 81);
+            tb_apellido.Name = "tb_apellido";
+            tb_apellido.Size = new Size(210, 23);
+            tb_apellido.TabIndex = 3;
+            tb_apellido.TextChanged += tb_apellido_TextChanged;
+            // 
+            // lb_apellido
+            // 
+            lb_apellido.AutoSize = true;
+            lb_apellido.Location = new Point(19, 63);
+            lb_apellido.Name = "lb_apellido";
+            lb_apellido.Size = new Size(61, 15);
+            lb_apellido.TabIndex = 2;
+            lb_apellido.Text = "Apellido/s";
+            lb_apellido.Click += lb_apellido_Click;
+            // 
+            // tb_nombre
+            // 
+            tb_nombre.Location = new Point(19, 37);
+            tb_nombre.Name = "tb_nombre";
+            tb_nombre.Size = new Size(210, 23);
+            tb_nombre.TabIndex = 1;
+            tb_nombre.TextChanged += tb_nombre_TextChanged;
+            // 
+            // lb_nombre
+            // 
+            lb_nombre.AutoSize = true;
+            lb_nombre.Location = new Point(19, 19);
+            lb_nombre.Name = "lb_nombre";
+            lb_nombre.Size = new Size(61, 15);
+            lb_nombre.TabIndex = 0;
+            lb_nombre.Text = "Nombre/s";
+            lb_nombre.Click += lb_nombre_Click;
             // 
             // gb_cita
             // 
@@ -180,45 +180,24 @@
             gb_cita.Text = "Formulario de cita";
             gb_cita.Enter += gb_cita_Enter;
             // 
-            // lb_especialidad
+            // tb_motivo
             // 
-            lb_especialidad.AutoSize = true;
-            lb_especialidad.Location = new Point(17, 19);
-            lb_especialidad.Name = "lb_especialidad";
-            lb_especialidad.Size = new Size(72, 15);
-            lb_especialidad.TabIndex = 0;
-            lb_especialidad.Text = "Especialidad";
-            lb_especialidad.Click += lb_especialidad_Click;
+            tb_motivo.Location = new Point(17, 169);
+            tb_motivo.Multiline = true;
+            tb_motivo.Name = "tb_motivo";
+            tb_motivo.Size = new Size(215, 67);
+            tb_motivo.TabIndex = 7;
+            tb_motivo.TextChanged += tb_motivo_TextChanged;
             // 
-            // cb_especialidad
+            // lb_motivo
             // 
-            cb_especialidad.FormattingEnabled = true;
-            cb_especialidad.Items.AddRange(new object[] { "Medicina General", "Emergencias", "Traumatologia", "Pediatria", "Gastroenterologia", "Ginecología y Obstetricia", "Cardiología", "Dermatología", "Oftalmología", "Otorrinolaringología", "Neurología", "Urología", "Alergología", "Medicina Interna", "Reumatología", "Neumología", "Endocrinología", "Psiquiatría", "Psicología", "Oncología", "Nutrición", "Fisioterapia", "Odontología" });
-            cb_especialidad.Location = new Point(17, 37);
-            cb_especialidad.Name = "cb_especialidad";
-            cb_especialidad.Size = new Size(215, 23);
-            cb_especialidad.TabIndex = 1;
-            cb_especialidad.SelectedIndexChanged += cb_especialidad_SelectedIndexChanged;
-            // 
-            // lb_fecha
-            // 
-            lb_fecha.AutoSize = true;
-            lb_fecha.Location = new Point(17, 63);
-            lb_fecha.Name = "lb_fecha";
-            lb_fecha.Size = new Size(38, 15);
-            lb_fecha.TabIndex = 2;
-            lb_fecha.Text = "Fecha";
-            lb_fecha.Click += lb_fecha_Click;
-            // 
-            // lb_hora
-            // 
-            lb_hora.AutoSize = true;
-            lb_hora.Location = new Point(17, 107);
-            lb_hora.Name = "lb_hora";
-            lb_hora.Size = new Size(33, 15);
-            lb_hora.TabIndex = 3;
-            lb_hora.Text = "Hora";
-            lb_hora.Click += lb_hora_Click;
+            lb_motivo.AutoSize = true;
+            lb_motivo.Location = new Point(17, 151);
+            lb_motivo.Name = "lb_motivo";
+            lb_motivo.Size = new Size(45, 15);
+            lb_motivo.TabIndex = 6;
+            lb_motivo.Text = "Motivo";
+            lb_motivo.Click += lb_motivo_Click;
             // 
             // cb_hora
             // 
@@ -237,30 +216,51 @@
             dt_fecha.TabIndex = 5;
             dt_fecha.ValueChanged += dt_fecha_ValueChanged;
             // 
-            // lb_motivo
+            // lb_hora
             // 
-            lb_motivo.AutoSize = true;
-            lb_motivo.Location = new Point(17, 151);
-            lb_motivo.Name = "lb_motivo";
-            lb_motivo.Size = new Size(45, 15);
-            lb_motivo.TabIndex = 6;
-            lb_motivo.Text = "Motivo";
-            lb_motivo.Click += lb_motivo_Click;
+            lb_hora.AutoSize = true;
+            lb_hora.Location = new Point(17, 107);
+            lb_hora.Name = "lb_hora";
+            lb_hora.Size = new Size(33, 15);
+            lb_hora.TabIndex = 3;
+            lb_hora.Text = "Hora";
+            lb_hora.Click += lb_hora_Click;
             // 
-            // tb_motivo
+            // lb_fecha
             // 
-            tb_motivo.Location = new Point(17, 169);
-            tb_motivo.Multiline = true;
-            tb_motivo.Name = "tb_motivo";
-            tb_motivo.Size = new Size(215, 67);
-            tb_motivo.TabIndex = 7;
-            tb_motivo.TextChanged += tb_motivo_TextChanged;
+            lb_fecha.AutoSize = true;
+            lb_fecha.Location = new Point(17, 63);
+            lb_fecha.Name = "lb_fecha";
+            lb_fecha.Size = new Size(38, 15);
+            lb_fecha.TabIndex = 2;
+            lb_fecha.Text = "Fecha";
+            lb_fecha.Click += lb_fecha_Click;
+            // 
+            // cb_especialidad
+            // 
+            cb_especialidad.FormattingEnabled = true;
+            cb_especialidad.Items.AddRange(new object[] { "Medicina General", "Emergencias", "Traumatologia", "Pediatria", "Gastroenterologia", "Ginecología y Obstetricia", "Cardiología", "Dermatología", "Oftalmología", "Otorrinolaringología", "Neurología", "Urología", "Alergología", "Medicina Interna", "Reumatología", "Neumología", "Endocrinología", "Psiquiatría", "Psicología", "Oncología", "Nutrición", "Fisioterapia", "Odontología" });
+            cb_especialidad.Location = new Point(17, 37);
+            cb_especialidad.Name = "cb_especialidad";
+            cb_especialidad.Size = new Size(215, 23);
+            cb_especialidad.TabIndex = 1;
+            cb_especialidad.SelectedIndexChanged += cb_especialidad_SelectedIndexChanged;
+            // 
+            // lb_especialidad
+            // 
+            lb_especialidad.AutoSize = true;
+            lb_especialidad.Location = new Point(17, 19);
+            lb_especialidad.Name = "lb_especialidad";
+            lb_especialidad.Size = new Size(72, 15);
+            lb_especialidad.TabIndex = 0;
+            lb_especialidad.Text = "Especialidad";
+            lb_especialidad.Click += lb_especialidad_Click;
             // 
             // FormularioCitas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(828, 450);
             Controls.Add(gb_cita);
             Controls.Add(gb_formulariocita);
             Name = "FormularioCitas";

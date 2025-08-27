@@ -2,11 +2,11 @@
 {
     public class Paciente
     {
-        public string carnet { get; set; }
-        public string nombre { get; set; }
-        public string apellido { get; set; }
-        public string telefono { get; set; }
-        public string direccion { get; set; }
+        public string Carnet { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public string Telefono { get; set; }
+        public string Direccion { get; set; }
 
     }
 }
