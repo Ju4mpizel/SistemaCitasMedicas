@@ -119,5 +119,10 @@ namespace SistemaCitasMedicas.UI
         {
 
         }
+
+        private void FormularioCitas_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

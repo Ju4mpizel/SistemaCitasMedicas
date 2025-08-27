@@ -8,7 +8,7 @@ using SistemaCitasMedicas.ENT;
 
 namespace SistemaCitasMedicas.DAL
 {
-    internal class PacienteDAL
+    public class PacienteDAL
     {
         private readonly ConexionBD _conexion;
 
@@ -31,8 +31,8 @@ namespace SistemaCitasMedicas.DAL
                         cmd.Parameters.AddWithValue("@carnet", paciente.Carnet);
                         cmd.Parameters.AddWithValue("@nombre", paciente.Nombre);
                         cmd.Parameters.AddWithValue("@apellido", paciente.Apellido);
-                        cmd.Parameters.AddWithValue("@telefono", paciente.Telefono);
-                        cmd.Parameters.AddWithValue("@direccion", paciente.Direccion);
+                        cmd.Parameters.AddWithValue("@telefono", paciente.Telefono ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@direccion", paciente.Direccion ?? (object)DBNull.Value);
 
                         cmd.ExecuteNonQuery();
                     }
@@ -50,7 +50,7 @@ namespace SistemaCitasMedicas.DAL
             }
         }
 
-        public List<Paciente> ObtenerPaciente()
+        public List<Paciente> ObtenerPacientes()
         {
             List<Paciente> lista = new List<Paciente>();
             try
@@ -70,8 +70,8 @@ namespace SistemaCitasMedicas.DAL
                                 Carnet = reader.GetString("carnet"),
                                 Nombre = reader.GetString("nombre"),
                                 Apellido = reader.GetString("apellido"),
-                                Telefono = reader.GetString("telefono"),
-                                Direccion = reader.GetString("direccion")
+                                Telefono = reader.IsDBNull(reader.GetOrdinal("telefono")) ? null : reader.GetString("telefono"),
+                                Direccion = reader.IsDBNull(reader.GetOrdinal("direccion")) ? null : reader.GetString("direccion")
                             });
                         }
                     }

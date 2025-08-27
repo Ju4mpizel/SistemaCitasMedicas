@@ -7,7 +7,7 @@ using MySqlConnector;
 using SistemaCitasMedicas.ENT;
 namespace SistemaCitasMedicas.DAL
 {
-    internal class CitaDAL
+    public class CitaDAL
     {
         private readonly ConexionBD _cadenaconexion;
 
@@ -28,7 +28,7 @@ namespace SistemaCitasMedicas.DAL
                         cmd.Parameters.AddWithValue("@fecha", cita.Fecha);
                         cmd.Parameters.AddWithValue("@hora", cita.Hora);
                         cmd.Parameters.AddWithValue("@carnet_paciente", cita.CarnetPaciente);
-                        cmd.Parameters.AddWithValue("@motivo", cita.Motivo);
+                        cmd.Parameters.AddWithValue("@motivo", cita.Motivo ?? (object)DBNull.Value);
                         cmd.Parameters.AddWithValue("@especialidad", cita.Especialidad);
                         cmd.ExecuteNonQuery();
                     }
@@ -64,7 +64,7 @@ namespace SistemaCitasMedicas.DAL
                                 Fecha = reader.GetDateTime("fecha"),
                                 Hora = reader.GetTimeSpan("hora"),
                                 Especialidad = reader.GetString("especialidad"),
-                                Motivo = reader.GetString("motivo"),
+                                Motivo = reader.IsDBNull(reader.GetOrdinal("motivo")) ? null:  reader.GetString("motivo"),
                                 CarnetPaciente = reader.GetString("carnet_paciente"),
                             });
                         }

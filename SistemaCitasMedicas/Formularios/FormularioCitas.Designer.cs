@@ -66,7 +66,7 @@
             gb_formulariocita.Controls.Add(lb_nombre);
             gb_formulariocita.Location = new Point(26, 24);
             gb_formulariocita.Name = "gb_formulariocita";
-            gb_formulariocita.Size = new Size(254, 331);
+            gb_formulariocita.Size = new Size(254, 256);
             gb_formulariocita.TabIndex = 0;
             gb_formulariocita.TabStop = false;
             gb_formulariocita.Text = "Formulario de datos del Paciente";
@@ -174,7 +174,7 @@
             gb_cita.Controls.Add(lb_especialidad);
             gb_cita.Location = new Point(311, 24);
             gb_cita.Name = "gb_cita";
-            gb_cita.Size = new Size(254, 331);
+            gb_cita.Size = new Size(254, 256);
             gb_cita.TabIndex = 1;
             gb_cita.TabStop = false;
             gb_cita.Text = "Formulario de cita";
@@ -265,6 +265,7 @@
             Controls.Add(gb_formulariocita);
             Name = "FormularioCitas";
             Text = "Form1";
+            Load += FormularioCitas_Load;
             gb_formulariocita.ResumeLayout(false);
             gb_formulariocita.PerformLayout();
             gb_cita.ResumeLayout(false);
