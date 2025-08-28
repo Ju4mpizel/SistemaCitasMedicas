@@ -132,17 +132,12 @@ namespace SistemaCitasMedicas.UI
         }
         private void btn_guardar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(tb_carnet.Text) ||
-            string.IsNullOrWhiteSpace(tb_nombre.Text) ||
-            string.IsNullOrWhiteSpace(tb_apellido.Text) ||
-            string.IsNullOrWhiteSpace(cb_hora.Text) ||
-            cb_especialidad.SelectedItem == null)
+            // Verifica si hay campos vacíos
+            if (AlertaVacio())
             {
-                MessageBox.Show("Por favor, complete todos los campos obligatorios: Nombre, Apellido, Carnet, Hora y Especialidad.",
-                                "Campos incompletos",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
-                return; // Detiene la ejecución si hay campos vacíos
+                // Marca los campos vacíos en rojo
+                MarcarVacios();
+                return;
             }
             // Guardado de datos en las clases
             Paciente pacienteNuevo = new Paciente
@@ -153,7 +148,6 @@ namespace SistemaCitasMedicas.UI
                 Telefono = tb_numero.Text,
                 Direccion = tb_direccion.Text
             };
-
             Cita citaNueva = new Cita
             {
                 Fecha = dt_fecha.Value,
@@ -162,11 +156,18 @@ namespace SistemaCitasMedicas.UI
                 Motivo = tb_motivo.Text,
                 Especialidad = cb_especialidad.SelectedItem?.ToString()
             };
-
             // Funciones que añaden al paciente y a la cita a la BD
             _pacienteBLL.AgregarPaciente(pacienteNuevo);
             _citaBLL.AgregarCita(citaNueva);
+            // Añade el botón a la lista
+            CreacionBotonesLista(pacienteNuevo, citaNueva);
+            // Mensaje de confirmación
+            MessageBox.Show("Cita añadida con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+            LimpiarFormulario();
+        }
+        public void CreacionBotonesLista(Paciente pacienteNuevo, Cita citaNueva)
+        {
             // ⚡ Crear botón dinámico en el FlowLayoutPanel
             Button btnCita = new Button();
             btnCita.Text = $"{pacienteNuevo.Carnet}";
@@ -203,22 +204,83 @@ namespace SistemaCitasMedicas.UI
             flp_citas.WrapContents = false;
             flp_citas.AutoScroll = true;
             flp_citas.AutoSize = false;
-
-            // Mensaje de confirmación
-            MessageBox.Show("Cita añadida con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            // Limpiar campos
+        }
+        public bool AlertaVacio()
+        {
+            if (string.IsNullOrWhiteSpace(tb_carnet.Text) ||
+                string.IsNullOrWhiteSpace(tb_nombre.Text) ||
+                string.IsNullOrWhiteSpace(tb_apellido.Text) ||
+                string.IsNullOrWhiteSpace(cb_hora.Text) ||
+                cb_especialidad.SelectedItem == null)
+            {
+                MessageBox.Show("Por favor, complete todos los campos obligatorios: Nombre, Apellido, Carnet, Hora y Especialidad.",
+                                "Campos incompletos",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return true;
+            }
+            return false;
+        }
+        public void LimpiarFormulario()
+        {
             tb_carnet.Clear();
             tb_nombre.Clear();
             tb_apellido.Clear();
             tb_numero.Clear();
             tb_direccion.Clear();
+            cb_especialidad.SelectedIndex = -1;
+            dt_fecha.Value = DateTime.Now;
+            cb_hora.SelectedIndex = -1;
             tb_motivo.Clear();
-
-            cb_hora.SelectedIndex = 0; // vuelve al "Seleccione una hora..."
-            cb_especialidad.SelectedIndex = -1; // deja vacío
-
-            dt_fecha.Value = DateTime.Now; // reinicia la fecha a hoy
+        }
+        public void MarcarVacios()
+        {
+            bool camposValidos = true;
+            if (string.IsNullOrWhiteSpace(tb_carnet.Text))
+            {
+                lb_carnet.ForeColor = Color.Red;
+                camposValidos = false;
+            }
+            else
+            {
+                lb_carnet.ForeColor = Color.Black;
+            }
+            if (string.IsNullOrWhiteSpace(tb_nombre.Text))
+            {
+                lb_nombre.ForeColor = Color.Red;
+                camposValidos = false;
+            }
+            else
+            {
+                lb_nombre.ForeColor = Color.Black;
+            }
+            if (string.IsNullOrWhiteSpace(tb_apellido.Text))
+            {
+                lb_apellido.ForeColor = Color.Red;
+                camposValidos = false;
+            }
+            else
+            {
+                lb_apellido.ForeColor = Color.Black;
+            }
+            if (string.IsNullOrWhiteSpace(cb_hora.Text))
+            {
+                lb_hora.ForeColor = Color.Red;
+                camposValidos = false;
+            }
+            else
+            {
+                lb_hora.ForeColor = Color.Black;
+            }
+            if (cb_especialidad.SelectedItem == null)
+            {
+                lb_especialidad.ForeColor = Color.Red;
+                camposValidos = false;
+            }
+            else
+            {
+                lb_especialidad.ForeColor = Color.Black;
+            }
         }
 
     }
