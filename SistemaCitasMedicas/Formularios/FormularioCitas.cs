@@ -8,7 +8,8 @@ namespace SistemaCitasMedicas.UI
         private readonly CitaNegocioBLL _citaBLL = new CitaNegocioBLL();
         public FormularioCitas()
         {
-        InitializeComponent();
+            InitializeComponent();
+            CargarCitas();
         }
 
         private void gb_formulariocita_Enter(object sender, EventArgs e)
@@ -83,48 +84,41 @@ namespace SistemaCitasMedicas.UI
             string especialidad = cb_especialidad.SelectedItem.ToString();
 
         // Limpiar el ComboBox de horarios
-        cb_hora.Items.Clear();
+            cb_hora.Items.Clear();
 
         // Cargar los horarios según la especialidad seleccionada
-        if (HorariosNegocioBLL.horariosPorEspecialidad.ContainsKey(especialidad))
-        {
-            foreach (string hora in HorariosNegocioBLL.horariosPorEspecialidad[especialidad])
+            if (HorariosNegocioBLL.horariosPorEspecialidad.ContainsKey(especialidad))
             {
-                cb_hora.Items.Add(hora);
+                foreach (string hora in HorariosNegocioBLL.horariosPorEspecialidad[especialidad])
+                {
+                    cb_hora.Items.Add(hora);
+                }
             }
         }
-        }
-
         private void lb_fecha_Click(object sender, EventArgs e)
         {
 
         }
-
         private void dt_fecha_ValueChanged(object sender, EventArgs e)
         {
 
         }
-
         private void lb_hora_Click(object sender, EventArgs e)
         {
 
         }
-
         private void cb_hora_SelectedIndexChanged(object sender, EventArgs e)
         {
   
         }
-
         private void lb_motivo_Click(object sender, EventArgs e)
         {
 
         }
-
         private void tb_motivo_TextChanged(object sender, EventArgs e)
         {
 
         }
-
         private void FormularioCitas_Load(object sender, EventArgs e)
         {
             cb_especialidad.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -170,9 +164,9 @@ namespace SistemaCitasMedicas.UI
         {
             // ⚡ Crear botón dinámico en el FlowLayoutPanel
             Button btnCita = new Button();
-            btnCita.Text = $"{pacienteNuevo.Carnet}";
+            btnCita.Text = $"{citaNueva.IdCita} - {citaNueva.CarnetPaciente}";
             btnCita.Tag = new { Cita = citaNueva, Paciente = pacienteNuevo }; // Guarda los datos de referencia
-            btnCita.Width = 160;
+            btnCita.Width = 220;
             btnCita.Height = 40;
             btnCita.Margin = new Padding(5);
 
@@ -282,7 +276,45 @@ namespace SistemaCitasMedicas.UI
                 lb_especialidad.ForeColor = Color.Black;
             }
         }
+        public void CargarCitas()
+        {
+            List<Cita> listaCitas = _citaBLL.ListarCitas(); // Todas las citas de la BD
 
+            foreach (var cita in listaCitas)
+            {
+                // Creamos el botón solo con información de la cita
+                Button btnCita = new Button
+                {
+                    Text = $"{cita.IdCita} - {cita.CarnetPaciente}", // Opcional: mostrar motivo también
+                    Tag = cita, // Guardamos la cita completa en el Tag
+                    Width = 220,
+                    Height = 40,
+                    Margin = new Padding(5)
+                };
+
+                btnCita.Click += (s, ev) =>
+                {
+                    Cita c = (Cita)((Button)s).Tag;
+
+                    MessageBox.Show(
+                        $"📋 Detalles de la cita:\n\n" +
+                        $"Carnet: {c.CarnetPaciente}\n" +
+                        $"Especialidad: {c.Especialidad}\n" +
+                        $"Motivo: {c.Motivo}\n" +
+                        $"Fecha: {c.Fecha:dd/MM/yyyy}\n" +
+                        $"Hora: {c.Hora}",
+                        "Información de la Cita"
+                    );
+                };
+
+                flp_citas.Controls.Add(btnCita);
+            }
+
+            flp_citas.FlowDirection = FlowDirection.TopDown;
+            flp_citas.WrapContents = false;
+            flp_citas.AutoScroll = true;
+            flp_citas.AutoSize = false;
+        }
     }
 }
 

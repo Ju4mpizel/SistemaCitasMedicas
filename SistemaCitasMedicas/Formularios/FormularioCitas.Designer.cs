@@ -107,7 +107,7 @@
             lb_numero.AutoSize = true;
             lb_numero.Location = new Point(19, 151);
             lb_numero.Name = "lb_numero";
-            lb_numero.Size = new Size(157, 15);
+            lb_numero.Size = new Size(158, 15);
             lb_numero.TabIndex = 6;
             lb_numero.Text = "Numero de Telefono/Celular";
             lb_numero.Click += lb_numero_Click;
@@ -274,7 +274,7 @@
             // 
             flp_citas.Location = new Point(6, 33);
             flp_citas.Name = "flp_citas";
-            flp_citas.Size = new Size(200, 199);
+            flp_citas.Size = new Size(245, 199);
             flp_citas.TabIndex = 3;
             // 
             // gb_listacitas
@@ -282,7 +282,7 @@
             gb_listacitas.Controls.Add(flp_citas);
             gb_listacitas.Location = new Point(599, 28);
             gb_listacitas.Name = "gb_listacitas";
-            gb_listacitas.Size = new Size(212, 252);
+            gb_listacitas.Size = new Size(257, 252);
             gb_listacitas.TabIndex = 4;
             gb_listacitas.TabStop = false;
             gb_listacitas.Text = "Lista de citas";
@@ -291,7 +291,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(833, 346);
+            ClientSize = new Size(868, 346);
             Controls.Add(gb_listacitas);
             Controls.Add(btn_guardar);
             Controls.Add(gb_cita);

@@ -87,5 +87,49 @@ namespace SistemaCitasMedicas.DAL
             }
             return lista;
         }
+        public Paciente ObtenerPacientePorCarnet(string carnet)
+        {
+            Paciente paciente = null;
+
+            try
+            {
+                using (var conexion = _conexion.ObtenerConexion())
+                {
+                    conexion.Open();
+
+                    string query = "SELECT carnet, nombre, apellido, telefono, direccion FROM Paciente WHERE carnet = @carnet LIMIT 1";
+                    using (var cmd = new MySqlCommand(query, conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@carnet", carnet);
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                paciente = new Paciente
+                                {
+                                    Carnet = reader.GetString("carnet"),
+                                    Nombre = reader.GetString("nombre"),
+                                    Apellido = reader.GetString("apellido"),
+                                    Telefono = reader.IsDBNull(reader.GetOrdinal("telefono")) ? null : reader.GetString("telefono"),
+                                    Direccion = reader.IsDBNull(reader.GetOrdinal("direccion")) ? null : reader.GetString("direccion")
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                throw new Exception("Error en la base de datos al obtener el paciente: " + ex.Message, ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocurrió un error inesperado al obtener el paciente", ex);
+            }
+
+            return paciente;
+        }
+
     }
 }
