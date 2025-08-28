@@ -14,7 +14,7 @@ namespace SistemaCitasMedicas.DAL
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
-            _cadenaconexion = configuration.GetConnectionString("sistemacitas"); //Colocar el nombre de nuestra base de datos
+            _cadenaconexion = configuration.GetConnectionString("SistemaCitas"); //Colocar el nombre de nuestra base de datos
         }
         //enerConexion: Método para obtener una conexión a la base de datos
         public MySqlConnection ObtenerConexion()

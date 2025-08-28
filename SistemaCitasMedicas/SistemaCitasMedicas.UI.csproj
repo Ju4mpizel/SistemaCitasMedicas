@@ -13,4 +13,10 @@
     <ProjectReference Include="..\SistemaCitasMedicas.ENT\SistemaCitasMedicas.ENT.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -7,11 +7,11 @@ namespace SistemaCitasMedicas.BLL
     {
         private readonly CitaDAL _citaDAL = new CitaDAL();
 
-        public void AgregarPaciente(Cita cita)
+        public void AgregarCita(Cita cita)
         {
             if (cita.Fecha == default(DateTime))
                 throw new Exception("La fecha no puede estar vacía.");
-            if (cita.Hora == default(TimeSpan))
+            if (string.IsNullOrWhiteSpace(cita.Hora))
                 throw new Exception("La hora no puede estar vacía.");
             if (string.IsNullOrWhiteSpace(cita.Especialidad))
                 throw new Exception("La especialidad no puede estar vacía.");

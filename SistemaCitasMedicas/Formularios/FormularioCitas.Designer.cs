@@ -48,8 +48,12 @@
             lb_fecha = new Label();
             cb_especialidad = new ComboBox();
             lb_especialidad = new Label();
+            btn_guardar = new Button();
+            flp_citas = new FlowLayoutPanel();
+            gb_listacitas = new GroupBox();
             gb_formulariocita.SuspendLayout();
             gb_cita.SuspendLayout();
+            gb_listacitas.SuspendLayout();
             SuspendLayout();
             // 
             // gb_formulariocita
@@ -113,9 +117,9 @@
             lb_carnet.AutoSize = true;
             lb_carnet.Location = new Point(19, 107);
             lb_carnet.Name = "lb_carnet";
-            lb_carnet.Size = new Size(111, 15);
+            lb_carnet.Size = new Size(119, 15);
             lb_carnet.TabIndex = 5;
-            lb_carnet.Text = "Carnet de Identidad";
+            lb_carnet.Text = "Carnet de Identidad *";
             lb_carnet.Click += lb_carnet_Click;
             // 
             // tb_carnet
@@ -139,9 +143,9 @@
             lb_apellido.AutoSize = true;
             lb_apellido.Location = new Point(19, 63);
             lb_apellido.Name = "lb_apellido";
-            lb_apellido.Size = new Size(61, 15);
+            lb_apellido.Size = new Size(69, 15);
             lb_apellido.TabIndex = 2;
-            lb_apellido.Text = "Apellido/s";
+            lb_apellido.Text = "Apellido/s *";
             lb_apellido.Click += lb_apellido_Click;
             // 
             // tb_nombre
@@ -157,9 +161,9 @@
             lb_nombre.AutoSize = true;
             lb_nombre.Location = new Point(19, 19);
             lb_nombre.Name = "lb_nombre";
-            lb_nombre.Size = new Size(61, 15);
+            lb_nombre.Size = new Size(69, 15);
             lb_nombre.TabIndex = 0;
-            lb_nombre.Text = "Nombre/s";
+            lb_nombre.Text = "Nombre/s *";
             lb_nombre.Click += lb_nombre_Click;
             // 
             // gb_cita
@@ -221,9 +225,9 @@
             lb_hora.AutoSize = true;
             lb_hora.Location = new Point(17, 107);
             lb_hora.Name = "lb_hora";
-            lb_hora.Size = new Size(33, 15);
+            lb_hora.Size = new Size(41, 15);
             lb_hora.TabIndex = 3;
-            lb_hora.Text = "Hora";
+            lb_hora.Text = "Hora *";
             lb_hora.Click += lb_hora_Click;
             // 
             // lb_fecha
@@ -231,9 +235,9 @@
             lb_fecha.AutoSize = true;
             lb_fecha.Location = new Point(17, 63);
             lb_fecha.Name = "lb_fecha";
-            lb_fecha.Size = new Size(38, 15);
+            lb_fecha.Size = new Size(46, 15);
             lb_fecha.TabIndex = 2;
-            lb_fecha.Text = "Fecha";
+            lb_fecha.Text = "Fecha *";
             lb_fecha.Click += lb_fecha_Click;
             // 
             // cb_especialidad
@@ -251,16 +255,45 @@
             lb_especialidad.AutoSize = true;
             lb_especialidad.Location = new Point(17, 19);
             lb_especialidad.Name = "lb_especialidad";
-            lb_especialidad.Size = new Size(72, 15);
+            lb_especialidad.Size = new Size(80, 15);
             lb_especialidad.TabIndex = 0;
-            lb_especialidad.Text = "Especialidad";
+            lb_especialidad.Text = "Especialidad *";
             lb_especialidad.Click += lb_especialidad_Click;
+            // 
+            // btn_guardar
+            // 
+            btn_guardar.Location = new Point(226, 286);
+            btn_guardar.Name = "btn_guardar";
+            btn_guardar.Size = new Size(135, 51);
+            btn_guardar.TabIndex = 2;
+            btn_guardar.Text = "Guardar Cita";
+            btn_guardar.UseVisualStyleBackColor = true;
+            btn_guardar.Click += btn_guardar_Click;
+            // 
+            // flp_citas
+            // 
+            flp_citas.Location = new Point(6, 33);
+            flp_citas.Name = "flp_citas";
+            flp_citas.Size = new Size(200, 199);
+            flp_citas.TabIndex = 3;
+            // 
+            // gb_listacitas
+            // 
+            gb_listacitas.Controls.Add(flp_citas);
+            gb_listacitas.Location = new Point(599, 28);
+            gb_listacitas.Name = "gb_listacitas";
+            gb_listacitas.Size = new Size(212, 252);
+            gb_listacitas.TabIndex = 4;
+            gb_listacitas.TabStop = false;
+            gb_listacitas.Text = "Lista de citas";
             // 
             // FormularioCitas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(828, 450);
+            ClientSize = new Size(833, 346);
+            Controls.Add(gb_listacitas);
+            Controls.Add(btn_guardar);
             Controls.Add(gb_cita);
             Controls.Add(gb_formulariocita);
             Name = "FormularioCitas";
@@ -270,6 +303,7 @@
             gb_formulariocita.PerformLayout();
             gb_cita.ResumeLayout(false);
             gb_cita.PerformLayout();
+            gb_listacitas.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -295,5 +329,8 @@
         private ComboBox cb_hora;
         private Label lb_hora;
         private Label lb_fecha;
+        private Button btn_guardar;
+        private FlowLayoutPanel flp_citas;
+        private GroupBox gb_listacitas;
     }
 }

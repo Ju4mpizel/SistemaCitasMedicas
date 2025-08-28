@@ -62,7 +62,7 @@ namespace SistemaCitasMedicas.DAL
                             {
                                 IdCita = reader.GetInt32("id_cita"),
                                 Fecha = reader.GetDateTime("fecha"),
-                                Hora = reader.GetTimeSpan("hora"),
+                                Hora = reader.GetString("hora"),
                                 Especialidad = reader.GetString("especialidad"),
                                 Motivo = reader.IsDBNull(reader.GetOrdinal("motivo")) ? null:  reader.GetString("motivo"),
                                 CarnetPaciente = reader.GetString("carnet_paciente"),

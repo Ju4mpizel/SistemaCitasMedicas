@@ -7,7 +7,7 @@ using SistemaCitasMedicas.DAL;
 using SistemaCitasMedicas.ENT;
 namespace SistemaCitasMedicas.BLL
 {
-    internal class PacienteNegocio
+    public class PacienteNegocioBLL
     {
         private readonly PacienteDAL _pacienteDAL = new PacienteDAL();
 
