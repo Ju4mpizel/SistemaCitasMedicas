@@ -387,8 +387,8 @@ namespace SistemaCitasMedicas.UI
         }
         private void CargarCitasDesdeBD()
         {
-            listaCitas = _citaBLL.ListarCitas(); 
-            flp_citas.Controls.Clear();           
+            listaCitas = _citaBLL.ListarCitas();
+            flp_citas.Controls.Clear();
 
             foreach (var cita in listaCitas)
             {
@@ -431,7 +431,11 @@ namespace SistemaCitasMedicas.UI
 
         }
 
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            tb_buscarCarnet.Clear();
+            CargarCitasDesdeBD();
+        }
     }
 }
 

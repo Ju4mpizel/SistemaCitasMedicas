@@ -53,7 +53,9 @@
             gb_listacitas = new GroupBox();
             tb_buscarCarnet = new TextBox();
             groupBox1 = new GroupBox();
+            button1 = new Button();
             btn_buscar = new Button();
+            label1 = new Label();
             gb_formulariocita.SuspendLayout();
             gb_cita.SuspendLayout();
             gb_listacitas.SuspendLayout();
@@ -286,7 +288,7 @@
             gb_listacitas.Controls.Add(flp_citas);
             gb_listacitas.Location = new Point(599, 97);
             gb_listacitas.Name = "gb_listacitas";
-            gb_listacitas.Size = new Size(272, 183);
+            gb_listacitas.Size = new Size(288, 183);
             gb_listacitas.TabIndex = 4;
             gb_listacitas.TabStop = false;
             gb_listacitas.Text = "Lista de citas";
@@ -301,30 +303,50 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(btn_buscar);
             groupBox1.Controls.Add(tb_buscarCarnet);
             groupBox1.Location = new Point(599, 24);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(272, 67);
+            groupBox1.Size = new Size(288, 67);
             groupBox1.TabIndex = 7;
             groupBox1.TabStop = false;
             groupBox1.Text = "Buscar por carnet";
+            // 
+            // button1
+            // 
+            button1.Location = new Point(251, 34);
+            button1.Name = "button1";
+            button1.Size = new Size(29, 23);
+            button1.TabIndex = 8;
+            button1.Text = "↻";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // btn_buscar
             // 
             btn_buscar.Location = new Point(192, 34);
             btn_buscar.Name = "btn_buscar";
-            btn_buscar.Size = new Size(74, 23);
+            btn_buscar.Size = new Size(53, 23);
             btn_buscar.TabIndex = 8;
             btn_buscar.Text = "Buscar";
             btn_buscar.UseVisualStyleBackColor = true;
             btn_buscar.Click += btn_buscar_Click;
             // 
+            // label1
+            // 
+            label1.Location = new Point(599, 283);
+            label1.Name = "label1";
+            label1.Size = new Size(288, 60);
+            label1.TabIndex = 8;
+            label1.Text = "* Una vez añadida la cita refrescar  la lista para  obtener todos los datos";
+            // 
             // FormularioCitas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(883, 364);
+            ClientSize = new Size(899, 364);
+            Controls.Add(label1);
             Controls.Add(groupBox1);
             Controls.Add(gb_listacitas);
             Controls.Add(btn_guardar);
@@ -371,5 +393,7 @@
         private TextBox tb_buscarCarnet;
         private GroupBox groupBox1;
         private Button btn_buscar;
+        private Button button1;
+        private Label label1;
     }
 }
