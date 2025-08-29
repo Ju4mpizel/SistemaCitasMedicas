@@ -413,7 +413,7 @@ namespace SistemaCitasMedicas.UI
             }
             else
             {
-                // 🔍 Aplico filtro
+                // Aplico filtro
                 var resultados = listaCitas
                     .Where(c => c.CarnetPaciente.Equals(carnet, StringComparison.OrdinalIgnoreCase))
                     .ToList();
@@ -431,23 +431,6 @@ namespace SistemaCitasMedicas.UI
 
         }
 
-        private void FiltrarCitasPorCarnet(string carnet)
-        {
-            flp_citas.Controls.Clear();
-
-            var citasFiltradas = listaCitas.Where(c => c.CarnetPaciente == carnet).ToList();
-
-            if (citasFiltradas.Count == 0)
-            {
-                MessageBox.Show("No se encontraron citas para el carnet ingresado.", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            foreach (var cita in citasFiltradas)
-            {
-                CrearBotonCita(cita);
-            }
-        }
 
     }
 }
