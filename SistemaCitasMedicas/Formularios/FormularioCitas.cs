@@ -1,5 +1,7 @@
 ﻿using SistemaCitasMedicas.BLL;
+using SistemaCitasMedicas.DAL;
 using SistemaCitasMedicas.ENT;
+using System.Text;
 namespace SistemaCitasMedicas.UI
 {
     public partial class FormularioCitas : Form
@@ -9,7 +11,6 @@ namespace SistemaCitasMedicas.UI
         public FormularioCitas()
         {
             InitializeComponent();
-            CargarCitas();
         }
 
         private void gb_formulariocita_Enter(object sender, EventArgs e)
@@ -80,13 +81,19 @@ namespace SistemaCitasMedicas.UI
         private void cb_especialidad_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cb_especialidad.SelectedItem == null)
+            {
+                // Se bloquea la hora si es que no esta seleccionada la especialidad
+                cb_hora.Enabled = false;
+                return;
+            }
+            if (cb_especialidad.SelectedItem == null)
                 return;
             string especialidad = cb_especialidad.SelectedItem.ToString();
 
-        // Limpiar el ComboBox de horarios
+            // Limpia el ComboBox de horarios
             cb_hora.Items.Clear();
 
-        // Cargar los horarios según la especialidad seleccionada
+            // Carga los horarios según la especialidad seleccionada
             if (HorariosNegocioBLL.horariosPorEspecialidad.ContainsKey(especialidad))
             {
                 foreach (string hora in HorariosNegocioBLL.horariosPorEspecialidad[especialidad])
@@ -94,6 +101,7 @@ namespace SistemaCitasMedicas.UI
                     cb_hora.Items.Add(hora);
                 }
             }
+            cb_hora.Enabled = true;
         }
         private void lb_fecha_Click(object sender, EventArgs e)
         {
@@ -109,7 +117,7 @@ namespace SistemaCitasMedicas.UI
         }
         private void cb_hora_SelectedIndexChanged(object sender, EventArgs e)
         {
-  
+
         }
         private void lb_motivo_Click(object sender, EventArgs e)
         {
@@ -121,16 +129,16 @@ namespace SistemaCitasMedicas.UI
         }
         private void FormularioCitas_Load(object sender, EventArgs e)
         {
+            CargarCitasDesdeBD();
+            cb_hora.Enabled = false;
             cb_especialidad.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_hora.DropDownStyle = ComboBoxStyle.DropDownList;
         }
         private void btn_guardar_Click(object sender, EventArgs e)
         {
-            // Verifica si hay campos vacíos
-            if (AlertaVacio())
+            // Llama a la funcion para validar si todo esta bien llenado
+            if (ValidarFormulario())
             {
-                // Marca los campos vacíos en rojo
-                MarcarVacios();
                 return;
             }
             // Guardado de datos en las clases
@@ -150,73 +158,163 @@ namespace SistemaCitasMedicas.UI
                 Motivo = tb_motivo.Text,
                 Especialidad = cb_especialidad.SelectedItem?.ToString()
             };
-            // Funciones que añaden al paciente y a la cita a la BD
-            _pacienteBLL.AgregarPaciente(pacienteNuevo);
-            _citaBLL.AgregarCita(citaNueva);
-            // Añade el botón a la lista
-            CreacionBotonesLista(pacienteNuevo, citaNueva);
+            // Verifica si el paciente ya existe antes de agregar
+            if (!_pacienteBLL.ExistePaciente(tb_carnet.Text))
+            {
+                _pacienteBLL.AgregarPaciente(pacienteNuevo);
+            }
+            //Verifica el Id de la cita y la guarda para ponerla en el boton
+            int idGenerado = _citaBLL.AgregarCita(citaNueva);
+            citaNueva.IdCita = idGenerado;
+            // Añade el botón a la lista de citas
+            CrearBotonCita(citaNueva, pacienteNuevo);
             // Mensaje de confirmación
             MessageBox.Show("Cita añadida con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+            // Limpia el formulario
             LimpiarFormulario();
         }
-        public void CreacionBotonesLista(Paciente pacienteNuevo, Cita citaNueva)
+        public bool ValidarFormulario()
         {
-            // ⚡ Crear botón dinámico en el FlowLayoutPanel
-            Button btnCita = new Button();
-            btnCita.Text = $"{citaNueva.IdCita} - {citaNueva.CarnetPaciente}";
-            btnCita.Tag = new { Cita = citaNueva, Paciente = pacienteNuevo }; // Guarda los datos de referencia
-            btnCita.Width = 220;
-            btnCita.Height = 40;
-            btnCita.Margin = new Padding(5);
+            bool hayError = false;
+            StringBuilder mensajeError = new StringBuilder("Corrija los siguientes errores:\n");
 
-            // Evento click del botón -> mostrar detalles
-            btnCita.Click += (s, ev) =>
+            int maxCarnet = 7;
+            int maxNombre = 100;
+            int maxApellido = 100;
+            int maxTelefono = 15;
+            int maxDireccion = 150;
+            int maxMotivo = 200;
+            int maxEspecialidad = 100;
+
+            // Validar carnet
+            if (string.IsNullOrWhiteSpace(tb_carnet.Text))
             {
-                var data = (dynamic)((Button)s).Tag;
-                Cita cita = data.Cita;
-                Paciente paciente = data.Paciente;
-
-                MessageBox.Show(
-                    $"📋 Detalles de la cita:\n\n" +
-                    $"Paciente: {paciente.Nombre} {paciente.Apellido}\n" +
-                    $"Carnet: {paciente.Carnet}\n" +
-                    $"Teléfono: {paciente.Telefono}\n" +
-                    $"Dirección: {paciente.Direccion}\n\n" +
-                    $"Especialidad: {cita.Especialidad}\n" +
-                    $"Motivo: {cita.Motivo}\n" +
-                    $"Fecha: {cita.Fecha:dd/MM/yyyy}\n" +
-                    $"Hora: {cita.Hora}",
-                    "Información de la Cita"
-                );
-            };
-
-            // Agregar botón al FlowLayoutPanel
-            flp_citas.Controls.Add(btnCita);
-
-            flp_citas.FlowDirection = FlowDirection.TopDown;
-            flp_citas.WrapContents = false;
-            flp_citas.AutoScroll = true;
-            flp_citas.AutoSize = false;
-        }
-        public bool AlertaVacio()
-        {
-            if (string.IsNullOrWhiteSpace(tb_carnet.Text) ||
-                string.IsNullOrWhiteSpace(tb_nombre.Text) ||
-                string.IsNullOrWhiteSpace(tb_apellido.Text) ||
-                string.IsNullOrWhiteSpace(cb_hora.Text) ||
-                cb_especialidad.SelectedItem == null)
-            {
-                MessageBox.Show("Por favor, complete todos los campos obligatorios: Nombre, Apellido, Carnet, Hora y Especialidad.",
-                                "Campos incompletos",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
-                return true;
+                lb_carnet.ForeColor = Color.Red;
+                mensajeError.AppendLine("- Carnet vacío");
+                hayError = true;
             }
-            return false;
+            else if (tb_carnet.Text.Length > maxCarnet)
+            {
+                lb_carnet.ForeColor = Color.Red;
+                mensajeError.AppendLine($"- Carnet supera {maxCarnet} caracteres");
+                hayError = true;
+            }
+            else
+            {
+                lb_carnet.ForeColor = Color.Black;
+            }
+
+            // Validar nombre
+            if (string.IsNullOrWhiteSpace(tb_nombre.Text))
+            {
+                lb_nombre.ForeColor = Color.Red;
+                mensajeError.AppendLine("- Nombre vacío");
+                hayError = true;
+            }
+            else if (tb_nombre.Text.Length > maxNombre)
+            {
+                lb_nombre.ForeColor = Color.Red;
+                mensajeError.AppendLine($"- Nombre supera {maxNombre} caracteres");
+                hayError = true;
+            }
+            else
+            {
+                lb_nombre.ForeColor = Color.Black;
+            }
+
+            // Validar apellido
+            if (string.IsNullOrWhiteSpace(tb_apellido.Text))
+            {
+                lb_apellido.ForeColor = Color.Red;
+                mensajeError.AppendLine("- Apellido vacío");
+                hayError = true;
+            }
+            else if (tb_apellido.Text.Length > maxApellido)
+            {
+                lb_apellido.ForeColor = Color.Red;
+                mensajeError.AppendLine($"- Apellido supera {maxApellido} caracteres");
+                hayError = true;
+            }
+            else
+            {
+                lb_apellido.ForeColor = Color.Black;
+            }
+
+            // Validar teléfono
+            if (!string.IsNullOrEmpty(tb_numero.Text) && tb_numero.Text.Length > maxTelefono)
+            {
+                lb_numero.ForeColor = Color.Red;
+                mensajeError.AppendLine($"- Teléfono supera {maxTelefono} caracteres");
+                hayError = true;
+            }
+            else
+            {
+                lb_numero.ForeColor = Color.Black;
+            }
+
+            // Validar dirección
+            if (!string.IsNullOrEmpty(tb_direccion.Text) && tb_direccion.Text.Length > maxDireccion)
+            {
+                lb_direccion.ForeColor = Color.Red;
+                mensajeError.AppendLine($"- Dirección supera {maxDireccion} caracteres");
+                hayError = true;
+            }
+            else
+            {
+                lb_direccion.ForeColor = Color.Black;
+            }
+
+            // Validar motivo
+            if (!string.IsNullOrEmpty(tb_motivo.Text) && tb_motivo.Text.Length > maxMotivo)
+            {
+                lb_motivo.ForeColor = Color.Red;
+                mensajeError.AppendLine($"- Motivo supera {maxMotivo} caracteres");
+                hayError = true;
+            }
+            else
+            {
+                lb_motivo.ForeColor = Color.Black;
+            }
+
+            // Validar especialidad
+            if (cb_especialidad.SelectedItem == null)
+            {
+                lb_especialidad.ForeColor = Color.Red;
+                mensajeError.AppendLine("- Especialidad no seleccionada");
+                hayError = true;
+            }
+            else if (cb_especialidad.SelectedItem.ToString().Length > maxEspecialidad)
+            {
+                lb_especialidad.ForeColor = Color.Red;
+                mensajeError.AppendLine($"- Especialidad supera {maxEspecialidad} caracteres");
+                hayError = true;
+            }
+            else
+            {
+                lb_especialidad.ForeColor = Color.Black;
+            }
+
+            // Validar hora
+            if (string.IsNullOrWhiteSpace(cb_hora.Text))
+            {
+                lb_hora.ForeColor = Color.Red;
+                mensajeError.AppendLine("- Hora no seleccionada");
+                hayError = true;
+            }
+            else
+            {
+                lb_hora.ForeColor = Color.Black;
+            }
+
+            // Mostrar mensaje si hay errores
+            if (hayError)
+                MessageBox.Show(mensajeError.ToString(), "Errores en el formulario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            return hayError;
         }
         public void LimpiarFormulario()
         {
+            // Limpia el formulario
             tb_carnet.Clear();
             tb_nombre.Clear();
             tb_apellido.Clear();
@@ -227,73 +325,23 @@ namespace SistemaCitasMedicas.UI
             cb_hora.SelectedIndex = -1;
             tb_motivo.Clear();
         }
-        public void MarcarVacios()
+        public void CrearBotonCita(Cita cita, Paciente paciente = null)
         {
-            bool camposValidos = true;
-            if (string.IsNullOrWhiteSpace(tb_carnet.Text))
+            Button btnCita = new Button
             {
-                lb_carnet.ForeColor = Color.Red;
-                camposValidos = false;
-            }
-            else
-            {
-                lb_carnet.ForeColor = Color.Black;
-            }
-            if (string.IsNullOrWhiteSpace(tb_nombre.Text))
-            {
-                lb_nombre.ForeColor = Color.Red;
-                camposValidos = false;
-            }
-            else
-            {
-                lb_nombre.ForeColor = Color.Black;
-            }
-            if (string.IsNullOrWhiteSpace(tb_apellido.Text))
-            {
-                lb_apellido.ForeColor = Color.Red;
-                camposValidos = false;
-            }
-            else
-            {
-                lb_apellido.ForeColor = Color.Black;
-            }
-            if (string.IsNullOrWhiteSpace(cb_hora.Text))
-            {
-                lb_hora.ForeColor = Color.Red;
-                camposValidos = false;
-            }
-            else
-            {
-                lb_hora.ForeColor = Color.Black;
-            }
-            if (cb_especialidad.SelectedItem == null)
-            {
-                lb_especialidad.ForeColor = Color.Red;
-                camposValidos = false;
-            }
-            else
-            {
-                lb_especialidad.ForeColor = Color.Black;
-            }
-        }
-        public void CargarCitas()
-        {
-            List<Cita> listaCitas = _citaBLL.ListarCitas(); // Todas las citas de la BD
+                Text = paciente == null ? $"{cita.IdCita} - {cita.CarnetPaciente}"
+                                        : $"{cita.IdCita} - {cita.CarnetPaciente}",
+                Tag = paciente == null ? (object)cita : new { Cita = cita, Paciente = paciente },
+                Width = 220,
+                Height = 40,
+                Margin = new Padding(5)
+            };
 
-            foreach (var cita in listaCitas)
+            btnCita.Click += (s, ev) =>
             {
-                // Creamos el botón solo con información de la cita
-                Button btnCita = new Button
+                if (paciente == null)
                 {
-                    Text = $"{cita.IdCita} - {cita.CarnetPaciente}", // Opcional: mostrar motivo también
-                    Tag = cita, // Guardamos la cita completa en el Tag
-                    Width = 220,
-                    Height = 40,
-                    Margin = new Padding(5)
-                };
-
-                btnCita.Click += (s, ev) =>
-                {
+                    // Solo Cita (cuando cargamos desde BD)
                     Cita c = (Cita)((Button)s).Tag;
 
                     MessageBox.Show(
@@ -305,15 +353,42 @@ namespace SistemaCitasMedicas.UI
                         $"Hora: {c.Hora}",
                         "Información de la Cita"
                     );
-                };
+                }
+                else
+                {
+                    // Cita + Paciente (cuando agregamos nueva)
+                    var data = (dynamic)((Button)s).Tag;
+                    Cita c = data.Cita;
+                    Paciente p = data.Paciente;
 
-                flp_citas.Controls.Add(btnCita);
-            }
+                    MessageBox.Show(
+                        $"📋 Detalles de la cita:\n\n" +
+                        $"Paciente: {p.Nombre} {p.Apellido}\n" +
+                        $"Carnet: {p.Carnet}\n" +
+                        $"Teléfono: {p.Telefono}\n" +
+                        $"Dirección: {p.Direccion}\n\n" +
+                        $"Especialidad: {c.Especialidad}\n" +
+                        $"Motivo: {c.Motivo}\n" +
+                        $"Fecha: {c.Fecha:dd/MM/yyyy}\n" +
+                        $"Hora: {c.Hora}",
+                        "Información de la Cita"
+                    );
+                }
+            };
 
+            flp_citas.Controls.Add(btnCita);
             flp_citas.FlowDirection = FlowDirection.TopDown;
             flp_citas.WrapContents = false;
             flp_citas.AutoScroll = true;
             flp_citas.AutoSize = false;
+        }
+        private void CargarCitasDesdeBD()
+        {
+            List<Cita> listaCitas = _citaBLL.ListarCitas();
+            foreach (var cita in listaCitas)
+            {
+                CrearBotonCita(cita); // función unificada que crearemos
+            }
         }
     }
 }

@@ -15,14 +15,14 @@ namespace SistemaCitasMedicas.DAL
         {
             _cadenaconexion = new ConexionBD();
         }
-        public void AgregarCita(Cita cita)
+        public int AgregarCita(Cita cita)
         {
             try
             {
                 using (var  conexion = _cadenaconexion.ObtenerConexion())
                 {
                     conexion.Open();
-                    string consulta = "INSERT INTO Citas(fecha,hora,carnet_paciente,motivo, especialidad) VALUES (@fecha,@hora,@carnet_paciente,@motivo, @especialidad)";
+                    string consulta = "INSERT INTO Citas(fecha,hora,carnet_paciente,motivo, especialidad) VALUES (@fecha,@hora,@carnet_paciente,@motivo, @especialidad); SELECT LAST_INSERT_ID();";
                     using (var cmd = new MySqlCommand(consulta, conexion))
                     {
                         cmd.Parameters.AddWithValue("@fecha", cita.Fecha);
@@ -30,7 +30,8 @@ namespace SistemaCitasMedicas.DAL
                         cmd.Parameters.AddWithValue("@carnet_paciente", cita.CarnetPaciente);
                         cmd.Parameters.AddWithValue("@motivo", cita.Motivo ?? (object)DBNull.Value);
                         cmd.Parameters.AddWithValue("@especialidad", cita.Especialidad);
-                        cmd.ExecuteNonQuery();
+                        int idGenerado = Convert.ToInt32(cmd.ExecuteScalar());
+                        return idGenerado;
                     }
                 }
 

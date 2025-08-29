@@ -27,12 +27,9 @@ namespace SistemaCitasMedicas.BLL
         {
             return _pacienteDAL.ObtenerPacientes();
         }
-        public Paciente ObtenerPacientePorCarnet(string carnet)
+        public bool ExistePaciente(string carnet)
         {
-            if (string.IsNullOrWhiteSpace(carnet))
-                throw new Exception("El carnet no puede estar vacío.");
-
-            return _pacienteDAL.ObtenerPacientePorCarnet(carnet);
+            return _pacienteDAL.ExistePaciente(carnet);
         }
     }
 }
