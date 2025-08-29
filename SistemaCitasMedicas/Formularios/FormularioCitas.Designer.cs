@@ -51,9 +51,13 @@
             btn_guardar = new Button();
             flp_citas = new FlowLayoutPanel();
             gb_listacitas = new GroupBox();
+            tb_buscarCarnet = new TextBox();
+            groupBox1 = new GroupBox();
+            btn_buscar = new Button();
             gb_formulariocita.SuspendLayout();
             gb_cita.SuspendLayout();
             gb_listacitas.SuspendLayout();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // gb_formulariocita
@@ -107,7 +111,7 @@
             lb_numero.AutoSize = true;
             lb_numero.Location = new Point(19, 151);
             lb_numero.Name = "lb_numero";
-            lb_numero.Size = new Size(158, 15);
+            lb_numero.Size = new Size(157, 15);
             lb_numero.TabIndex = 6;
             lb_numero.Text = "Numero de Telefono/Celular";
             lb_numero.Click += lb_numero_Click;
@@ -262,7 +266,7 @@
             // 
             // btn_guardar
             // 
-            btn_guardar.Location = new Point(226, 286);
+            btn_guardar.Location = new Point(234, 301);
             btn_guardar.Name = "btn_guardar";
             btn_guardar.Size = new Size(135, 51);
             btn_guardar.TabIndex = 2;
@@ -274,24 +278,54 @@
             // 
             flp_citas.Location = new Point(6, 33);
             flp_citas.Name = "flp_citas";
-            flp_citas.Size = new Size(245, 199);
+            flp_citas.Size = new Size(260, 130);
             flp_citas.TabIndex = 3;
             // 
             // gb_listacitas
             // 
             gb_listacitas.Controls.Add(flp_citas);
-            gb_listacitas.Location = new Point(599, 28);
+            gb_listacitas.Location = new Point(599, 97);
             gb_listacitas.Name = "gb_listacitas";
-            gb_listacitas.Size = new Size(257, 252);
+            gb_listacitas.Size = new Size(272, 183);
             gb_listacitas.TabIndex = 4;
             gb_listacitas.TabStop = false;
             gb_listacitas.Text = "Lista de citas";
+            // 
+            // tb_buscarCarnet
+            // 
+            tb_buscarCarnet.Location = new Point(6, 34);
+            tb_buscarCarnet.Name = "tb_buscarCarnet";
+            tb_buscarCarnet.Size = new Size(180, 23);
+            tb_buscarCarnet.TabIndex = 6;
+            tb_buscarCarnet.TextChanged += tb_buscarCarnet_TextChanged;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(btn_buscar);
+            groupBox1.Controls.Add(tb_buscarCarnet);
+            groupBox1.Location = new Point(599, 24);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(272, 67);
+            groupBox1.TabIndex = 7;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Buscar por carnet";
+            // 
+            // btn_buscar
+            // 
+            btn_buscar.Location = new Point(192, 34);
+            btn_buscar.Name = "btn_buscar";
+            btn_buscar.Size = new Size(74, 23);
+            btn_buscar.TabIndex = 8;
+            btn_buscar.Text = "Buscar";
+            btn_buscar.UseVisualStyleBackColor = true;
+            btn_buscar.Click += btn_buscar_Click;
             // 
             // FormularioCitas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(868, 346);
+            ClientSize = new Size(883, 364);
+            Controls.Add(groupBox1);
             Controls.Add(gb_listacitas);
             Controls.Add(btn_guardar);
             Controls.Add(gb_cita);
@@ -304,6 +338,8 @@
             gb_cita.ResumeLayout(false);
             gb_cita.PerformLayout();
             gb_listacitas.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -332,5 +368,8 @@
         private Button btn_guardar;
         private FlowLayoutPanel flp_citas;
         private GroupBox gb_listacitas;
+        private TextBox tb_buscarCarnet;
+        private GroupBox groupBox1;
+        private Button btn_buscar;
     }
 }

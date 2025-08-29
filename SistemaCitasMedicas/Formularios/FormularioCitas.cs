@@ -2,12 +2,14 @@
 using SistemaCitasMedicas.DAL;
 using SistemaCitasMedicas.ENT;
 using System.Text;
+using System.Windows.Forms;
 namespace SistemaCitasMedicas.UI
 {
     public partial class FormularioCitas : Form
     {
         private readonly PacienteNegocioBLL _pacienteBLL = new PacienteNegocioBLL();
         private readonly CitaNegocioBLL _citaBLL = new CitaNegocioBLL();
+        private List<Cita> listaCitas;
         public FormularioCitas()
         {
             InitializeComponent();
@@ -130,6 +132,7 @@ namespace SistemaCitasMedicas.UI
         private void FormularioCitas_Load(object sender, EventArgs e)
         {
             CargarCitasDesdeBD();
+            tb_buscarCarnet.MaxLength = 7;
             cb_hora.Enabled = false;
             cb_especialidad.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_hora.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -384,12 +387,68 @@ namespace SistemaCitasMedicas.UI
         }
         private void CargarCitasDesdeBD()
         {
-            List<Cita> listaCitas = _citaBLL.ListarCitas();
+            listaCitas = _citaBLL.ListarCitas(); 
+            flp_citas.Controls.Clear();           
+
             foreach (var cita in listaCitas)
             {
-                CrearBotonCita(cita); // función unificada que crearemos
+                CrearBotonCita(cita);
             }
         }
+
+        private void btn_buscar_Click(object sender, EventArgs e)
+        {
+            string carnet = tb_buscarCarnet.Text;
+
+            // Limpia la lista de citas mostradas
+            flp_citas.Controls.Clear();
+
+            if (string.IsNullOrEmpty(carnet))
+            {
+                // Muestra todo otra vez si no hay nada en el textbox
+                foreach (var cita in listaCitas)
+                {
+                    CrearBotonCita(cita);
+                }
+            }
+            else
+            {
+                // 🔍 Aplico filtro
+                var resultados = listaCitas
+                    .Where(c => c.CarnetPaciente.Equals(carnet, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                foreach (var cita in resultados)
+                {
+                    CrearBotonCita(cita);
+                }
+            }
+        }
+
+
+        private void tb_buscarCarnet_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FiltrarCitasPorCarnet(string carnet)
+        {
+            flp_citas.Controls.Clear();
+
+            var citasFiltradas = listaCitas.Where(c => c.CarnetPaciente == carnet).ToList();
+
+            if (citasFiltradas.Count == 0)
+            {
+                MessageBox.Show("No se encontraron citas para el carnet ingresado.", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            foreach (var cita in citasFiltradas)
+            {
+                CrearBotonCita(cita);
+            }
+        }
+
     }
 }
 
